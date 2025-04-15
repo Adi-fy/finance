@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    <form action="/quote" method="post">
+        <div class="container mb-3 row">
+            <div class="col-4"></div>
+            <input autofocus autocomplete="off" required class="form-control w-25 col-auto " style="margin-right:0.5rem;"type="search" name="quote" placeholder="Quote...">
+            <button class="btn btn-primary col-auto" type="submit">Search</button>
+            <div class="col-4"></div>
+        </div>
+    </form>
+    {% if stock %}
+        <div class="container">
+            <div class="row border-top  align-items-center bg-body-secondary">
+                <div class="col">{{stock.name}}</div>
+                <div class="col">{{stock.price}}</div>
+                <div class="col">{{stock.symbol}}</div>
+                <div class="col">
+                    <form action="/buy" method="get">
+                        <input type="hidden" name="symbol" value="{{stock.symbol}}">
+                        <button class="btn btn-primary border-2 border-info-subtle" style="width: 50%;" type="submit">Buy</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

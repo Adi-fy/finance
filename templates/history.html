@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <div class="w-50 mx-auto h-50" style="font-weight: bold" >TRANSACTION HISTORY:</div>
+        <div class="row text-light border border-dark mb-1" style="font-weight: bold">
+            <div class="col bg-primary">
+                S.No.
+            </div>
+            <div class="col bg-primary">
+                Date/Time
+            </div>
+            <div class="col bg-primary">
+                Symbol
+            </div>
+            <div class="col bg-primary">
+                Shares
+            </div>
+            <div class="col bg-primary">
+                Price
+            </div>
+            <div class="col bg-primary">
+                Transaction-Type
+            </div>
+        </div>
+        {% if trans %}
+            {% for tran in trans %}
+                <div class="row border border-secondary mb-1">
+                    <div class="col">
+                        {{loop.index}}
+                    </div>
+                    <div class="col">
+                        {{tran.date_time}}
+                    </div>
+                    <div class="col">
+                        {{tran.symbol}}
+                    </div>
+                    <div class="col">
+                        {{tran.shares}}
+                    </div>
+                    <div class="col">
+                        {{tran.price}}
+                    </div>
+                    <div class="col">
+                        {{tran.type}}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+                <div class="row w-50 mx-auto">
+                    NO TRANSACTIONS TO SHOW
+                </div>
+        {% endif %}
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Portfolio
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+
+            <div class="row bg-primary border border-dark text-light mb-2" style="font-weight: bold;">
+                <div class="col">
+                    Name
+                </div>
+                <div class="col">
+                    Symbol
+                </div>
+                <div class="col">
+                    Shares
+                </div>
+                <div class="col">
+                    Current Price
+                </div>
+                <div class="col">
+                    Total Value
+                </div>
+                <div class="col-1">
+                    SELL
+                </div>
+                <div class="col-1">
+                    BUY
+                </div>
+            </div>
+            {% if stocks %}
+                {% for stock in stocks %}
+                    <div class="row">
+                        <div class="col">
+                            {{stock.name}}
+                        </div>
+                        <div class="col">
+                            {{stock.symbol}}
+                        </div>
+                        <div class="col">
+                            {{stock.shares}}
+                        </div>
+                        <div class="col" style="font-weight: bold;">
+                            ${{stock.price | round(2)}}
+                        </div>
+                        <div class="col" style="font-weight: bold;">
+                           ${{stock.value | round(2)}}
+                        </div>
+                        <div class="col-1">
+                            <form action="/sell" method="/get">
+                                <input type="hidden" name="symbol" value="{{stock.symbol}}">
+                                <button type="submit" class="btn btn-primary w-100" style="font-weight: bold;">
+                                    SELL
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-1">
+                            <form action="/buy" method="/get">
+                                <input type="hidden" name="symbol" value="{{stock.symbol}}">
+                                <button type="submit" class="btn btn-primary w-100" style="font-weight: bold;">
+                                    BUY
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="row border">
+                    <div class="col bg-primary bg-gradient border border-dark text-light" style="font-weight: bold;">
+                       TOTAL HOLDINGS
+                    </div>
+                    <div class="col" style="font-weight: bold;">
+                        ${{holding | round(2)}}
+                    </div>
+                </div>
+                <div class="row border">
+                    <div class="col bg-primary border border-dark text-light" style="font-weight: bold;">
+                        CASH
+                    </div>
+                    <div class="col" style="font-weight: bold;">
+                        ${{cash | round(2)}}
+                    </div>
+                </div>
+                <div class="row border">
+                    <div class="col bg-primary border border-dark text-light" style="font-weight: bold;">
+                        GRAND TOTAL
+                    </div>
+                    <div class="col" style="font-weight: bold;">
+                        ${{ (holding + cash) | round(2)}}
+                    </div>
+                </div>
+            {% else %}
+                <div class="row border-2 ">
+                    <div class="col mx-auto w-auto" style="font-weight: bold;">
+                        NO STOCKS TO SHOW
+                    </div>
+                </div>
+            {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Sell
+{% endblock %}
+
+{% block main %}
+<div class="container">
+    <div class="text-danger dm-serif-text-regular banner">SELL</div>
+    <form class="row" action="/sell" method="post">
+        <select class="form-select col" required name="symbol" >
+            <option {% if not symbols %} selected {% endif %} value="none">None</option>
+            {% if symbols %}
+                {% for symbol in symbols %}
+                <option {%if value == symbol.symbol %} selected{% endif %} value="{{symbol.symbol}}">{{symbol.symbol}}</option>
+                {%endfor%}
+            {% endif %}
+        </select>
+        <input class="form-control col"type="text" autofocus autocomplete="off" placeholder="Quantity" name="shares">
+        <button type="submit" class="btn btn-primary">SELL</button>
+    </form>
+</div>
+{% endblock %}

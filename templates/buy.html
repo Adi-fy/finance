@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <div class="text-success dm-serif-text-regular banner">BUY</div>
+    <form action="/buy" method="post">
+        <div class="container row">
+            <input autofocus autocomplete="off" class="form-control w-25 col " type="search" name="symbol" required placeholder="Symbol..." value="{{value}}">
+            <input class="form-control w-auto col" type="text" name="shares"
+            required placeholder="Quantity">
+            <button class="btn btn-primary" type="submit">BUY</button>
+            <div class="col-4"></div>
+        </div>
+    </form>
+{% endblock %}
