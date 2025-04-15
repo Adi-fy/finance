@@ -89,8 +89,8 @@ def buy():
         else:
             db.execute("INSERT INTO portfolio (user_id, name, symbol, shares) VALUES (?,?,?,?);",
                        session["user_id"], stock["name"], stock["symbol"], quantity)
-        db.execute("UPDATE users SET cash = cash - ? WHERE (id = ? AND symbol = ?)",
-                   cost, session["user_id"], stock["symbol"])
+        db.execute("UPDATE users SET cash = cash - ? WHERE id = ?;",
+                   cost, session["user_id"])
 
         flash("Successfully Bought " + str(quantity) + " share(s) of " + stock["symbol"])
         return redirect("/")
@@ -221,11 +221,11 @@ def sell():
         date_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         # Update Portfolio
-        db.execute("UPDATE portfolio SET shares = shares - ? WHERE user_id = ?;", user_quantity, session["user_id"])
+        db.execute("UPDATE portfolio SET shares = shares - ? WHERE (user_id = ? AND symbol = ?);", user_quantity, session["user_id"], stock["symbol"])
         # Clean Portfolio
         db.execute("DELETE FROM portfolio WHERE shares = 0;")
         # Update transactions
-        db.execute("INSERT INTO transactions (user_id, date_time, symbol, shares, price, type) VALUES (?, ?, ?, ?, ?,'SELL');",
+        db.execute("INSERT INTO transactions (user_id, date_time, symbol, shares, price, type) VALUES (?, ?, ?, - ?, ?,'SELL');",
                    session["user_id"], date_time, symbol, user_quantity, stock["price"])
         # Update cash
         db.execute("UPDATE users SET cash = cash + ? WHERE id = ?", stock["price"] * user_quantity, session["user_id"])
